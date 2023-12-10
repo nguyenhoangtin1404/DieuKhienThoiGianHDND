@@ -56,7 +56,30 @@ $conn->close();
     <p><strong>Loại phát biểu:</strong> <?php echo $speechType; ?></p>
     <p><strong>Thời gian đếm ngược:</strong> <?php echo $countdownTime; ?></p>
 
-    <!-- Các phần tử HTML khác -->
 
+<!-- Đoạn JavaScript thêm vào trang view_meeting.php -->
+<script>
+    function updateIsUpdate() {
+        // Sử dụng XMLHttpRequest để gửi yêu cầu đến trang xử lý PHP
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Nhận phản hồi từ trang xử lý PHP (nếu cần)
+                console.log(this.responseText);
+            }
+        };
+
+        // Gửi yêu cầu đến trang xử lý PHP để kiểm tra và cập nhật is_update
+        xhttp.open("GET", "update_is_update.php?id=<?php echo $meetingId; ?>", true);
+        xhttp.send();
+    }
+
+    // Lặp lại hàm kiểm tra và cập nhật mỗi giây
+    setInterval(updateIsUpdate, 1000);
+</script>
 </body>
 </html>
+
+
+
