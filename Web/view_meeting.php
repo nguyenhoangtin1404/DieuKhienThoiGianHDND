@@ -70,23 +70,39 @@ $conn->close();
 
         // Hiển thị thời gian đếm ngược
         function displayCountdown() {
-            var minutes = Math.floor(countdownTime / 60);
-            var seconds = countdownTime % 60;
+            if (countdownTime >= 0) {
+                var minutes = Math.floor(countdownTime / 60);
+                var seconds = countdownTime % 60;
+
+                // Định dạng hiển thị giờ, phút, giây
+                var formattedTime = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+                // Hiển thị lên trang web
+                document.getElementById("countdown").innerHTML = formattedTime;
+
+                // Giảm thời gian đếm ngược
+                countdownTime--;
+
+                // Kiểm tra xem đã hết thời gian đếm ngược chưa
+                if (countdownTime < 0) {
+                    clearInterval(countdownInterval);
+                    displayCurrentTime();
+                }
+            }
+        }
+
+        // Hiển thị thời gian hiện tại sau khi kết thúc đếm ngược
+        function displayCurrentTime() {
+            var currentTime = new Date();
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
 
             // Định dạng hiển thị giờ, phút, giây
-            var formattedTime = minutes + " phút " + seconds + " giây";
+            var formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 
             // Hiển thị lên trang web
             document.getElementById("countdown").innerHTML = formattedTime;
-
-            // Giảm thời gian đếm ngược
-            countdownTime--;
-
-            // Kiểm tra xem đã hết thời gian đếm ngược chưa
-            if (countdownTime < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "Hết thời gian";
-            }
         }
 
         // Gọi hàm hiển thị đếm ngược mỗi giây
